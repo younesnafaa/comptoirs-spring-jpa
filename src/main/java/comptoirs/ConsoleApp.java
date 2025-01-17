@@ -1,6 +1,7 @@
 package comptoirs;
 
 import java.io.IOException;
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -87,6 +88,25 @@ public class ConsoleApp implements CommandLineRunner {
         log.info("Nombre de produits différents commandés par chaque client");
         clientDAO.produitsParClient().forEach(
             ppc -> log.info("Le client {} a commandé {} produits différents", ppc.getSociete(), ppc.getNombre())
+        );
+
+        // Ajout du test pour la méthode montantArticles
+        tapezEnterPourContinuer();
+        log.info("Calcul du montant des articles pour une commande");
+        Integer numeroCommande = 10702; // Exemple de numéro de commande
+        BigDecimal montant = commandeDAO.montantArticles(numeroCommande);
+        log.info("Montant des articles pour la commande {} : {}", numeroCommande, montant);
+
+        // Ajout du test pour la méthode findCommandesByClientCode
+        tapezEnterPourContinuer();
+        log.info("Liste des commandes pour un client donné");
+        String codeClient = "ALFKI"; // Exemple de code client
+        List<CommandeProjection> commandes = commandeDAO.findCommandesByClientCode(codeClient);
+        commandes.forEach(commande ->
+                log.info("Commande : {}, Port : {}, Montant Articles : {}",
+                        commande.getNumeroCommande(),
+                        commande.getPort(),
+                        commande.getMontantArticles())
         );
     }
 
